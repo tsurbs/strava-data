@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fixed Position Graph with Canvas</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+        canvas {
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="graphCanvas" width="600" height="600"></canvas>
+
+    <script>
+        const canvas = document.getElementById("graphCanvas");
+        canvas.style.display = "none";
+        const ctx = canvas.getContext("2d");
+
+        const nodes = {{ nodes }}
+
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.strokeStyle = "orange";
+        ctx.fillStyle = "orange";
+
+        // Draw nodes
+        nodes.forEach((node, i) => {
+            
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, 1, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+        });
+
+        canvas.style.display = "block";
+    </script>
+</body>
+</html>
