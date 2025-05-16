@@ -47,8 +47,8 @@ for activity_id, route in tqdm(routes):
         })
 
 # inject nodes into {{ nodes }} in template.html
-with open('graph.html', 'r') as f:
+with open('../dist/graph.html', 'r') as f:
     template = f.read()
 template = template.replace('{{ route_nodes }}', json.dumps(nodes))
-with open('routes.html', 'w') as f:
+with open('../dist/routes.html', 'w') as f:
     f.write(template)

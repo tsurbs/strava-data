@@ -34,5 +34,5 @@ for node in tqdm(graph):
 with open('template.html', 'r') as f:
     template = f.read()
 template = template.replace('{{ nodes }}', json.dumps(nodes))
-with open('graph.html', 'w') as f:
+with open('../dist/graph.html', 'w') as f:
     f.write(template)

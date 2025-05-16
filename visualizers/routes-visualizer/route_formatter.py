@@ -49,5 +49,5 @@ for activity_id, route in tqdm(routes):
 with open('template.html', 'r') as f:
     template = f.read()
 template = template.replace('{{ nodes }}', json.dumps(nodes))
-with open('routes.html', 'w') as f:
+with open('../dist/routes.html', 'w') as f:
     f.write(template)
