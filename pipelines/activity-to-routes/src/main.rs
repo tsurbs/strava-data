@@ -72,8 +72,8 @@ impl KdPoint for Item {
 
 
 fn load_data() -> (HashMap<String, Node>, Vec<Activity>) {
-    let graph_data = fs::read_to_string("../graph.json").expect("Unable to read graph.json");
-    let activities_data = fs::read_to_string("../inputs/strava_activities.json").expect("Unable to read strava_activities.json");
+    let graph_data = fs::read_to_string("../../graph.json").expect("Unable to read graph.json");
+    let activities_data = fs::read_to_string("../../inputs/strava_activities.json").expect("Unable to read strava_activities.json");
     let graph: HashMap<String, Node> = from_str(&graph_data).expect("Failed to parse graph");
     let activities: Vec<Activity> = from_str(&activities_data).expect("Failed to parse activities");
     (graph, activities)
