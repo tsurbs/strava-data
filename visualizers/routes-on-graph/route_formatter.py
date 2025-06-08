@@ -2,7 +2,7 @@ import json
 import os
 from tqdm import tqdm
 
-routes_dir = "../../activity-to-routes/routes"
+routes_dir = "../../routes"
 
 graph = json.load(open("../../graph.json"))
 
