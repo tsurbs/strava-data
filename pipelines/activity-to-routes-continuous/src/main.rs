@@ -80,11 +80,11 @@ fn main() {
         succ_activities += 1;
         println!("Activity ID: {} processed successfully ({} / {})", activity.id, succ_activities, 775);
 
-        let mut file = File::create("../../routes/{}.txt", activity.id).expect("Unable to create file for activity: " + activity.id.to_string());
-        let json_data = serde_json::to_string(&normed_activity).expect("Failed to serialize activity: " + activity.id.to_string());
-        file.write_all(json_data.as_bytes()).expect("Failed to write to file for:" + activity.id.to_string());
+        let mut file = File::create(format!("../../routes/{}.txt", activity.id)).expect(format!("Unable to create file for activity: {}", activity.id.to_string()).as_str());
+        let json_data = serde_json::to_string(&normed_activity).expect(format!("Failed to serialize activity: {}", activity.id.to_string()).as_str());
+        file.write_all(json_data.as_bytes()).expect(format!("Failed to write to file for: {}", activity.id.to_string()).as_str());
     }
     
     
-    println!("Total successful activities: {}", all_activities.len());
+    println!("Total successful activities: {}", succ_activities);
 }
