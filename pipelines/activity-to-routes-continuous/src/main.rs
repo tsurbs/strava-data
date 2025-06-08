@@ -27,20 +27,7 @@ struct ActivityMap {
 struct NormActivityData {
     points: Vec<[f64; 2]>,
     id: usize,
-}
-
-#[derive(Debug, Clone, Serialize)]
-struct NormData {
-    activities: Vec<NormActivityData>,
     region: [[f64; 2]; 2],
-}
-impl NormData {
-    fn len(&self) -> usize {
-        self.activities.len()
-    }
-    fn push(&mut self, activity: NormActivityData) {
-        self.activities.push(activity);
-    }
 }
 
 
@@ -62,10 +49,7 @@ fn normalized_point(point: geo_types::Coord, boundary: [[f64; 2]; 2]) -> [f64; 2
 
 fn main() {
     let activities = load_data();
-    let mut all_activities = NormData {
-        activities: Vec::new(),
-        region: REGION_BOUNDARY,
-    };
+    let mut succ_activities = 0;
     for activity in activities {
         let polyline = decode_polyline(&activity.map.summary_polyline, 5).unwrap();
         let start = polyline.clone().into_iter().next();
@@ -86,18 +70,21 @@ fn main() {
         let mut normed_activity: NormActivityData = NormActivityData {
             points: Vec::new(),
             id: activity.id as usize,
+            region: REGION_BOUNDARY,
         };
 
         for (i, point) in polyline.into_iter().enumerate() {
             let norm_point = normalized_point(point, REGION_BOUNDARY);
             normed_activity.points.push([norm_point[0], norm_point[1]]);
         }        
-        all_activities.push(normed_activity);
-        println!("Activity ID: {} processed successfully ({} / {})", activity.id, all_activities.len(), 775);
+        succ_activities += 1;
+        println!("Activity ID: {} processed successfully ({} / {})", activity.id, succ_activities, 775);
+
+        let mut file = File::create("../../routes/{}.txt", activity.id).expect("Unable to create file for activity: " + activity.id.to_string());
+        let json_data = serde_json::to_string(&normed_activity).expect("Failed to serialize activity: " + activity.id.to_string());
+        file.write_all(json_data.as_bytes()).expect("Failed to write to file for:" + activity.id.to_string());
     }
-    let mut file = File::create("../../normalized_activities.json").expect("Unable to create file");
-    let json_data = serde_json::to_string(&all_activities).expect("Failed to serialize activities");
-    file.write_all(json_data.as_bytes()).expect("Failed to write to file");
+    
     
     println!("Total successful activities: {}", all_activities.len());
 }
